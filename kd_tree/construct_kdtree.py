@@ -32,6 +32,7 @@ def kdtree(point_list, depth=0):
         right_child=kdtree(point_list[median + 1:], depth + 1)
     )
 
+
 def main():
     """Example usage"""
     point_list = [(3,1,4),(2,3,7),(4,3,4),(6,1,4)]
@@ -41,6 +42,8 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
 
 
 
