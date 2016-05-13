@@ -56,15 +56,60 @@ class KMeans(object):
             for i in range(m):   # 将每个样本点分配到离它最近的质心所属的族
                 minDist = np.inf; minIndex = -1
                 for j in range(self.n_clusters):
-                    disji = self._distEclud(self.centroids[j,:], X[i,:])
+                    distji = self._distEclud(self.centroids[j,:], X[i,:])
                     if distji < minDist:
                         minDist = distji; minIndex = j
                 if self.clusterAssment[i,0] != minIndex:
                     clusterChanged = True
                     self.clusterAssment[i,:] = minIndex, minDist**2
 
+            if not clusterChanged:  # 若所有样本点所属的族都不改变，则已收敛，结束迭代
+                break
+            for i in range(self.n_clusters):  # 更新质心，即每个族中所有点的均值作为质心
+                ptsInClust = X[np.nonzero(self.clusterAssment[:,0] == i)[0]]  # 取出第i个族的所有点
+                self.centroids[i,:] = np.mean(ptsInClust, axis=0)
+
+        self.labels = self.clusterAssment[:,0]
+        self.sse = sum(self.clusterAssment[:,1])
+
+    def predict(self,X):  # 根据聚类结果，预测新输入数据所属的族
+        # 类型检查
+        if not isinstance(X, np.ndarray):
+            try:
+                X = np.asarray(X)
+            except:
+                raise TypeError("numpy.ndarray required for X")
+
+        m = X.shape[0]  # m为样本数量
+        preds = np.empty((m,))
+        for i in range(m):  # 将每个样本点分配到离它最近的质心所属的族
+            minDist = np.inf
+            for j in range(self.n_clusters):
+                disji = self._distEclud(self.centroids[j,:], X[i,:])
+                if distji < minDist:
+                    minDist = distji
+                    preds[i] = j
+
+        return preds
 
 
+class biKMeans(object):
+    def __init__(self, n_clusters=5):
+        self.n_clusters = nclusters
+        self.centroids = None
+        self.clusterAssment = None
+        self.labels = None
+        self.sse = None
+
+    def _distEclud(self, vecA, vecB):
+        return np.linalg.norm(vecA-vecB)
+
+    def fit(self,X):
+        m = X.shape[0]
+        self.clusterAssment = np.zeros((m,2))
+        centroid0 = np.mean(X, axis=0).tolist()
+        centList = [centroid0]
+        for j in range(m):   # 计算每个样本点与质心之间初始的平方误差
 
 
 
