@@ -4,7 +4,7 @@
 import cPickle as pickle
 import matplotlib.pyplot as plt
 import numpy as np
-from kmeans_self import KMeans
+from kmeans_self import KMeans,biKMeans
 
 if __name__ == "__main__":
     # 加载数据
@@ -16,7 +16,8 @@ if __name__ == "__main__":
         n_clusters = 10
         initCent = X[50:60]  # 将初始质心初始化为X[50:60]
         # 训练模型
-        clf = KMeans(n_clusters, initCent, max_iter)
+#        clf = KMeans(n_clusters, initCent, max_iter)
+        clf = biKMeans(n_clusters)
         clf.fit(X)
         cents = clf.centroids
         labels = clf.labels
