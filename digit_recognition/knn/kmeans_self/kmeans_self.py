@@ -109,17 +109,20 @@ class biKMeans(object):
         self.clusterAssment = np.zeros((m,2))
         centroid0 = np.mean(X, axis=0).tolist()
         centList = [centroid0]
+        print '------------------'
+        print centList
+        print '------------------'
         for j in xrange(m):   # 计算每个样本点与质心之间初始的平方误差
             self.clusterAssment[j,1] = self._distEclud(np.asarray(centroid0),X[j,:])**2
 
         while (len(centList) < self.n_clusters):
             lowestSSE = np.inf
             for i in range(len(centList)):  # 尝试划分每一族，选取使得误差最小的那个族进行划分
+            # 这里对已有的每一族都进行了划分，然后比较它们的SSE，选择最小的那个进行划分
                 ptsInCurrCluster = X[np.nonzero(self.clusterAssment[:,0] == i)[0],:]
                 clf = KMeans(n_clusters = 2)
                 clf.fit(ptsInCurrCluster)
                 centroidMat, splitClustAss = clf.centroids, clf.clusterAssment
-                print centroidMat
                 #  划分该族后，所得到的质心，分配结果及误差矩阵
                 sseSplit = sum(splitClustAss[:,1])
                 sseNotSplit = sum(self.clusterAssment[np.nonzero(self.clusterAssment[:,0] != i)[0],1])
@@ -135,6 +138,8 @@ class biKMeans(object):
             bestClustAss[np.nonzero(bestClustAss[:,0] == 0)[0],0] = bestCentToSplit
             centList[bestCentToSplit] = bestNewCents[0,:].tolist()
             centList.append(bestNewCents[1,:].tolist())
+            print '=============================='
+            print centList
             self.clusterAssment[np.nonzero(self.clusterAssment[:,0] == bestCentToSplit)[0],:] = bestClustAss
 
         self.labels = self.clusterAssment[:,0]
