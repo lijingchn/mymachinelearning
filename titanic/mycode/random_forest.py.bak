@@ -6,7 +6,7 @@ import pandas as pd
 import re
 import sklearn
 import matplotlib.pyplot as plt
-#import seaborn as sns
+import seaborn as sns
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
 from scipy.stats import pointbiserialr,spearmanr
@@ -139,8 +139,7 @@ scores = []
 for feature in feature_param:
     clf = DecisionTreeClassifier(max_features=feature)
     clf.fit(X_train,y_train)
-#    scoreCV = sklearn.cross_validation.cross_val_score(clf,X_test,y_test,cv=10)
-    scoreCV = sklearn.cross_validation.cross_val_score(clf,X_test,y_test,cv=10)
+    scoreCV = sklearn.cross_validation.cross_val_score(clf,X,y,cv=10)
     scores.append(np.mean(scoreCV))
     print '================='
     print scores
@@ -160,8 +159,7 @@ scores = []
 for feature in feature_param:
     clf = DecisionTreeClassifier(max_depth=feature)
     clf.fit(X_train,y_train)
-#    scoreCV = sklearn.cross_validation.cross_val_score(clf,X,y,cv=10)
-    scoreCV = sklearn.cross_validation.cross_val_score(clf,X_test,y_test,cv=10)
+    scoreCV = sklearn.cross_validation.cross_val_score(clf,X,y,cv=10)
     scores.append(np.mean(scoreCV))
 plt.plot(feature_param,scores,".-")
 plt.axis('tight')
@@ -178,8 +176,7 @@ scores = []
 for feature in feature_param:
     clf = DecisionTreeClassifier(min_samples_split = feature)
     clf.fit(X_train,y_train)
-#    scoreCV = sklearn.cross_validation.cross_val_score(clf,X,y,cv=10)
-    scoreCV = sklearn.cross_validation.cross_val_score(clf,X_test,y_test,cv=10)
+    scoreCV = sklearn.cross_validation.cross_val_score(clf,X,y,cv=10)
     scores.append(np.mean(scoreCV))
 plt.plot(feature_param,scores,'.-')
 plt.axis('tight')
@@ -196,8 +193,7 @@ scores = []
 for feature in feature_param:
     clf = DecisionTreeClassifier(min_samples_leaf = feature)
     clf.fit(X_train,y_train)
-#    scoreCV = sklearn.cross_validation.cross_val_score(clf,X,y,cv=10)
-    scoreCV = sklearn.cross_validation.cross_val_score(clf,X_test,y_test,cv=10)
+    scoreCV = sklearn.cross_validation.cross_val_score(clf,X,y,cv=10)
     scores.append(np.mean(scoreCV))
 plt.plot(feature_param,scores,'.-')
 plt.axis('tight')
@@ -214,8 +210,7 @@ scores = []
 for feature in feature_param:
     clf = DecisionTreeClassifier(min_weight_fraction_leaf = feature)
     clf.fit(X_train,y_train)
-#    scoreCV = sklearn.cross_validation.cross_val_score(clf,X,y,cv=10)
-    scoreCV = sklearn.cross_validation.cross_val_score(clf,X_test,y_test,cv=10)
+    scoreCV = sklearn.cross_validation.cross_val_score(clf,X,y,cv=10)
     scores.append(np.mean(scoreCV))
 plt.plot(feature_param,scores,'.-')
 plt.axis('tight')
@@ -232,8 +227,7 @@ scores = []
 for feature in feature_param:
     clf = DecisionTreeClassifier(max_leaf_nodes = feature)
     clf.fit(X_train,y_train)
-#    scoreCV = sklearn.cross_validation.cross_val_score(clf,X,y,cv=10)
-    scoreCV = sklearn.cross_validation.cross_val_score(clf,X_test,y_test,cv=10)
+    scoreCV = sklearn.cross_validation.cross_val_score(clf,X,y,cv=10)
     scores.append(np.mean(scoreCV))
 plt.plot(feature_param,scores,'.-')
 plt.axis('tight')
@@ -251,11 +245,9 @@ plt.subplot(3,3,1)
 feature_param = range(1,21)
 scores = []
 for feature in feature_param:
-    clf = RandomForestClassifier(n_estimators = feature)
+    #clf = RandomForestClassifier(n_estimators = feature)
     clf.fit(X_train,y_train)
-    scoreCV = sklearn.cross_validation.cross_val_score(clf,X_test,y_test,cv=10).mean()
-#    scoreCV2 = clf.score(X_test,y_test)
-
+    scoreCV = clf.score(X_test,y_test)
     scores.append(scoreCV)
 plt.plot(scores,'.-')
 plt.axis('tight')
@@ -272,8 +264,7 @@ scores = []
 for feature in feature_param:
     clf = RandomForestClassifier(criterion = feature)
     clf.fit(X_train,y_train)
-#    scoreCV = clf.score(X_test,y_test)
-    scoreCV = sklearn.cross_validation.cross_val_score(clf,X_test,y_test,cv=10).mean()
+    scoreCV = clf.score(X_test,y_test)
     scores.append(scoreCV)
 plt.plot(scores,'.-')
 #plt.xlabel('parameter')
@@ -289,8 +280,7 @@ scores = []
 for feature in feature_param:
     clf = RandomForestClassifier(max_features = feature)
     clf.fit(X_train,y_train)
-#    scoreCV = clf.score(X_test,y_test)
-    scoreCV = sklearn.cross_validation.cross_val_score(clf,X_test,y_test,cv=10).mean()
+    scoreCV = clf.score(X_test,y_test)
     scores.append(scoreCV)
 plt.plot(scores,'.-')
 plt.axis('tight')
@@ -307,8 +297,7 @@ scores = []
 for feature in feature_param:
     clf = RandomForestClassifier(max_depth = feature)
     clf.fit(X_train,y_train)
-#    scoreCV = clf.score(X_test,y_test)
-    scoreCV = sklearn.cross_validation.cross_val_score(clf,X_test,y_test,cv=10).mean()
+    scoreCV = clf.score(X_test,y_test)
     scores.append(scoreCV)
 plt.plot(feature_param,scores,'.-')
 plt.axis('tight')
@@ -324,8 +313,7 @@ scores = []
 for feature in feature_param:
     clf = RandomForestClassifier(min_samples_split= feature)
     clf.fit(X_train,y_train)
-#    scoreCV = clf.score(X_test,y_test)
-    scoreCV = sklearn.cross_validation.cross_val_score(clf,X_test,y_test,cv=10).mean()
+    scoreCV = clf.score(X_test,y_test)
     scores.append(scoreCV)
 plt.plot(feature_param,scores,'.-')
 plt.axis('tight')
@@ -341,8 +329,7 @@ scores = []
 for feature in feature_param:
     clf = RandomForestClassifier(min_weight_fraction_leaf=feature)
     clf.fit(X_train,y_train)
-#    scoreCV = clf.score(X_test,y_test)
-    scoreCV = sklearn.cross_validation.cross_val_score(clf,X_test,y_test,cv=10).mean()
+    scoreCV = clf.score(X_test,y_test)
     scores.append(scoreCV)
 plt.plot(feature_param,scores,'.-')
 plt.axis('tight')
@@ -358,8 +345,7 @@ scores = []
 for feature in feature_param:
     clf = RandomForestClassifier(max_leaf_nodes = feature)
     clf.fit(X_train,y_train)
-#    scoreCV  = clf.score(X_test,y_test)
-    scoreCV = sklearn.cross_validation.cross_val_score(clf,X_test,y_test,cv=10).mean()
+    scoreCV  = clf.score(X_test,y_test)
     scores.append(scoreCV)
 plt.plot(feature_param,scores,'.-')
 plt.axis('tight')
@@ -370,58 +356,40 @@ plt.grid()
 plt.show()
 
 
-# handle test data
-test_df["Title"] = test_df["Name"].apply(lambda x:Title_Dictionary[x.split(',')[1].split('.')[0].strip()])
-# fill the missingness data
-test_df["Age"] = test_df["Age"].fillna(test_df["Age"].median())
+# Building and fitting my forest 
+target = train_df["Survived"].values
+#features_forest = train_df[["Family_size","Pclass","Sex","Age","Fare","SibSp", "Parch", "Embarked"]].values
+#features_forest = train_df[["Pclass","Sex","Age","Fare","SibSp", "Parch", "Embarked"]].values
+#forest = RandomForestClassifier(n_estimators=100, n_jobs=4, max_features="sqrt")
+#my_forest = forest.fit(features_forest,target)
+#print "======================================"
+#print my_forest.score(features_forest,target)
+
+#print train_df["Survived"][train_df["Child"] == 1].value_counts()
+#print train_df["Child"][train_df["Child"]==1]
+#print train_df[train_df["Child"]==1]
+
+#Impute the missing value for Fare in row 152 with the median of the columns
+#print test_df["Fare"][test_df["Fare"].isnull()]
 test_df["Fare"] = test_df["Fare"].fillna(test_df["Fare"].median())
-test_df["Embarked"] = test_df["Embarked"].fillna("S")
+test_df["Age"] = test_df["Age"].fillna(test_df["Fare"].median())
+test_df["Sex"][test_df["Sex"] == "female"] = 0
+test_df["Sex"][test_df["Sex"] == "male"] =1
+test_df["Embarked"][test_df["Embarked"] == "S"] = 0
+test_df["Embarked"][test_df["Embarked"] == "C"] = 1
+test_df["Embarked"][test_df["Embarked"] == "Q"] = 2
 test_df["Family_size"] = test_df["Parch"] + test_df["SibSp"] + 1
-# drop useless series
-test_df = test_df.drop(['Ticket','Cabin','SibSp','Parch'], axis = 1)
-#train_df.hist(figsize=(20,15))
-#plt.show()
-dummies_Sex = pd.get_dummies(test_df["Sex"], prefix = 'Sex')
-dummies_Embarked = pd.get_dummies(test_df["Embarked"], prefix = 'Embarked')
-dummies_Pclass = pd.get_dummies(test_df["Pclass"], prefix = 'Pclass')
-dummies_Title = pd.get_dummies(test_df["Title"], prefix = 'Title')
-test_df = pd.concat([test_df,dummies_Sex,dummies_Embarked,dummies_Pclass,dummies_Title], axis=1)
-test_df = test_df.drop(["Sex","Embarked","Pclass","Title","Name"], axis=1)
-test_df.set_index(['PassengerId'])
-test_features_df = test_df[best_features]
-print test_features_df.shape
 
-# Building and fitting my decision tree
-# ===============================================
-X = train_df[best_features]
-y = train_df["Survived"]
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=5)
-#clf_tree = DecisionTreeClassifier(max_depth = 5, max_leaf_nodes = 8, min_samples_split = 5)
-#clf_tree = DecisionTreeClassifier(max_depth = 5)
-#clf_tree = clf_tree.fit(X_train,y_train)
-#scoreCV = sklearn.cross_validation.cross_val_score(clf_tree,X_test,y_test,cv=10).mean()
+#test_features = test_df[["Family_size","Pclass","Sex","Age","Fare","SibSp", "Parch", "Embarked"]].values
+#test_features = test_df[["Pclass","Sex","Age","Fare","SibSp", "Parch", "Embarked"]].values
+#my_prediction = my_forest.predict(test_features)
 
-#prediction_tree = clf_tree.predict(test_features_df)
 # Create a data frame with two columns: PassengerId & Survived.
 #PassengerId = np.array(test_df["PassengerId"]).astype(int)
-#my_solution = pd.DataFrame(prediction_tree, PassengerId, columns=["Survived"])
+#my_solution = pd.DataFrame(my_prediction, PassengerId, columns=["Survived"])
+#print my_solution
+#print my_solution.shape
+
 # Write solution to a csv file with the name my_solution.csv
-#my_solution.to_csv("prediction_tree_solution.csv", index_label=["PassengerId"])
-
-
-# Building and fitting my forest
-# ================================================
-clf_forest = RandomForestClassifier(n_estimators = 16, max_depth = 4)
-#clf_forest = RandomForestClassifier(max_depth = 5)
-clf_forest = clf_forest.fit(X_train,y_train)
-scoreCV = sklearn.cross_validation.cross_val_score(clf_forest,X_test,y_test,cv=10).mean()
-print scoreCV
-
-prediction_tree = clf_forest.predict(test_features_df)
-# Create a data frame with two columns: PassengerId & Survived.
-PassengerId = np.array(test_df["PassengerId"]).astype(int)
-my_solution = pd.DataFrame(prediction_tree, PassengerId, columns=["Survived"])
-# Write solution to a csv file with the name my_solution.csv
-my_solution.to_csv("prediction_forest_solution.csv", index_label=["PassengerId"])
-
+#my_solution.to_csv("my_forest_solution.csv", index_label=["PassengerId"])
 
